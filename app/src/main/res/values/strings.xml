@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">EasyCalculator</string>
+    <string name="delete">⌫</string>
+    <string name="equal_sign">=</string>
+    <string name="decimal">.</string>
+    <string name="zero">0</string>
+    <string name="addition">+</string>
+    <string name="subtract">‑</string>
+    <string name="multiplication">×</string>
+    <string name="openBracket">(</string>
+    <string name="closeBracket">)</string>
+    <string name="divide">÷</string>
 </resources>
