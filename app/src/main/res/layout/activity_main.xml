@@ -10,21 +10,12 @@
     <TextView
         android:id="@+id/result_tv"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:textAlignment="textEnd"
+        android:layout_height="250dp"
         android:background="#FFFFFF"
         android:textSize="36sp"
+        android:padding="10dp"
         android:maxLength="32"
-        />
-
-    <TextView
-        android:id="@+id/input_tv"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:textAlignment="textEnd"
-        android:background="@color/white"
-        android:textSize="36sp"
-        android:maxLength="32"
+        android:gravity="right|bottom|center_vertical"
         />
 
     <!-- First Row -->
@@ -212,7 +203,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:textColor="@color/white"
-            android:text="@string/subtract"
+            android:text="-"
             android:textSize="24sp"
             android:layout_margin="5dp"
             android:onClick="onOperator"

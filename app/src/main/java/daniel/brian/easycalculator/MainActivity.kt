@@ -12,36 +12,29 @@ class MainActivity : AppCompatActivity() {
     var lastNumeric : Boolean = false
     var lastDot : Boolean = false
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         }
     fun OnDigit(view : View){
 
-        val result_tv = findViewById<TextView>(R.id.result_tv)
-        result_tv.append((view as Button).text)
+        val resultTv = findViewById<TextView>(R.id.result_tv)
+        resultTv.append((view as Button).text)
         lastNumeric = true
 
     }
     fun OnAllClear(view : View){
 
-        val input_tv = findViewById<TextView>(R.id.input_tv)
-        input_tv.text = ""
-         lastNumeric = false
-         lastDot = false
-
-
-        val result_tv = findViewById<TextView>(R.id.result_tv)
-        result_tv.text = ""
+        val resultTv = findViewById<TextView>(R.id.result_tv)
+        resultTv.text = ""
         lastNumeric = false
         lastDot = false
 
     }
     fun OnClear(view : View){
 
-        val result_tv = findViewById<TextView>(R.id.result_tv)
-        result_tv.text = result_tv.text.dropLast(1)
+        val resultTv = findViewById<TextView>(R.id.result_tv)
+        resultTv.text = resultTv.text.dropLast(1)
         lastNumeric = false
         lastDot = false
 
@@ -49,57 +42,102 @@ class MainActivity : AppCompatActivity() {
 
     fun OnDecimal(view: View) {
 
-        val result_tv = findViewById<TextView>(R.id.result_tv)
         if (lastNumeric && !lastDot ) {
 
-            result_tv.append(".")
+            val resultTv = findViewById<TextView>(R.id.result_tv)
+            resultTv.append(".")
 
             lastNumeric = false
             lastDot = true
         }
     }
 
-    fun onOperator(view: View){
-        val result_tv = findViewById<TextView>(R.id.result_tv)
-        if(lastNumeric && !isOperatorAdded(result_tv.text.toString())) {
-            result_tv.append((view as Button).text)
+    fun onEqual(view : View) {
+        if (lastNumeric) {
 
-            lastNumeric = false
-            lastDot = false
-        }
-    }
-
-    fun onEqual(view : View){
-        if(lastNumeric) {
-
-            val result_tv = findViewById<TextView>(R.id.result_tv)
-            var resultTv = result_tv.text.toString()
+            val resultTv = findViewById<TextView>(R.id.result_tv)
+            var resultValue = resultTv.text.toString()
             var prefix = ""
 
             try {
 
-                if(resultTv.startsWith("-")){
+                if (resultValue.startsWith("-")) {
                     prefix = "-"
-                    resultTv = resultTv.substring(1)
+                    resultValue = resultValue.substring(1)
+
                 }
 
-                if(resultTv.contains("-")){
-                    val split_value = resultTv.split("-")
+                if (resultValue.contains("-")) {
+                    val splitValue = resultValue.split("-")
 
-                    var one = split_value[0]
-                    var two = split_value[1]
+                    var one = splitValue[0]
+                    var two = splitValue[1]
 
-                    if(!prefix.isEmpty()){
+                    if (!prefix.isEmpty()) {
                         one = prefix + one
                     }
 
-                    val result_tv = findViewById<TextView>(R.id.result_tv)
-                    result_tv.text = (one.toDouble() - two.toDouble()).toString()
-                }
+                    resultTv.text = removeZerosAfterDot((one.toDouble() - two.toDouble()).toString())
 
-            }catch (e : ArithmeticException){
+                } else if (resultValue.contains("+")) {
+                    val splitValue = resultValue.split("+")
+
+                    var one = splitValue[0]
+                    var two = splitValue[1]
+
+                    if (!prefix.isEmpty()) {
+                        one = prefix + one
+                    }
+
+                    resultTv.text = removeZerosAfterDot((one.toDouble() + two.toDouble()).toString())
+
+                } else if (resultValue.contains("÷")) {
+                    val splitValue = resultValue.split("÷")
+
+                    var one = splitValue[0]
+                    var two = splitValue[1]
+
+                    if (!prefix.isEmpty()) {
+                        one = prefix + one
+                    }
+                    resultTv.text = removeZerosAfterDot((one.toDouble() / two.toDouble()).toString())
+
+                } else if (resultValue.contains("×")) {
+                    val splitValue = resultValue.split("×")
+
+                    var one = splitValue[0]
+                    var two = splitValue[1]
+
+                    if (!prefix.isEmpty()) {
+                        one = prefix + one
+                    }
+
+                    resultTv.text = removeZerosAfterDot((one.toDouble() * two.toDouble()).toString())
+                }
+            } catch (e: ArithmeticException) {
                 e.printStackTrace()
             }
+        }
+    }
+
+    private fun removeZerosAfterDot(result: String) : String{
+        var value = result
+
+        if(result.contains("0")){
+            value = result.substring(0,result.length -2)
+        }
+
+        return value
+    }
+
+    fun onOperator(view: View){
+
+        val resultTv = findViewById<TextView>(R.id.result_tv)
+        if(lastNumeric && !isOperatorAdded(resultTv.text.toString())) {
+            resultTv.append((view as Button).text)
+
+            lastNumeric = false
+            lastDot = false
         }
     }
 
